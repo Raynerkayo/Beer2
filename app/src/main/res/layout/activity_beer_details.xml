@@ -7,25 +7,25 @@
     >
 
     <EditText
-        android:id="@+id/activity_beer_details_title"
+        android:id="@+id/activity_beer_details_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView" />
 
     <EditText
-        android:id="@+id/activity_beer_details_sub_title"
+        android:id="@+id/activity_beer_details_tagline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView" />
 
     <EditText
-        android:id="@+id/activity_beer_details_content"
+        android:id="@+id/activity_beer_details_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView" />
 
     <ImageView
-        android:id="@+id/activity_beer_details_image_placeholder"
+        android:id="@+id/activity_beer_details_image_url"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_launcher_foreground" />
