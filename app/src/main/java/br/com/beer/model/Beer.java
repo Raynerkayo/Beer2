@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString(exclude = {"id"})
 public class Beer implements Serializable {
 
-   private int codLocal;
+   private int codLocal = 0;
 
    private int id;
 
@@ -35,4 +35,7 @@ public class Beer implements Serializable {
 
    private String image_url;
 
+    public boolean isValidCod() {
+        return codLocal > 0;
+    }
 }
