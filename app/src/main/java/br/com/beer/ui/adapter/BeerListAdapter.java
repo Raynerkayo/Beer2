@@ -58,6 +58,13 @@ public class BeerListAdapter extends BaseAdapter {
         itemTageline.setText(beer.getTagline());
         itemFavorite.setImageResource(beer.getFavorite() ? R.drawable.staron : R.drawable.staroff);
         itemPlaceholder.setImageResource(R.drawable.placeholder);
+        //acionar o favorito.
+        /*
+        itemFavorite.setOnClickListener(
+                v -> {
+                    Toast.makeText(context, "CLICOU EM itemFavorite", Toast.LENGTH_LONG).show();
+                }
+        );*/
         //Picasso.get().load(beer.getImage_url()).into(itemFavorite);
         //setImageResource(cerveja.getFavorite() ? R.drawable.staron : R.drawable.staroff);
         //itemFavorite.setText(String.valueOf(beer.getFavorite()));
