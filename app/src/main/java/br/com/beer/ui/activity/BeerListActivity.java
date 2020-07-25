@@ -1,5 +1,7 @@
 package br.com.beer.ui.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,7 +9,6 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -18,14 +19,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import br.com.beer.R;
 import br.com.beer.dao.BeerDAO;
 import br.com.beer.model.Beer;
+import br.com.beer.ui.adapter.BeerListAdapter;
 
 import static br.com.beer.ui.activity.util.ConstantsActivities.KEY_BEER;
+import static br.com.beer.ui.activity.util.ConstantsActivities.MESSAGE;
+import static br.com.beer.ui.activity.util.ConstantsActivities.REMOVE_BEER;
 
 public class BeerListActivity extends AppCompatActivity {
 
     private static final String TITLE_APPBAR = "Beer List";
     private final BeerDAO beerDAO = new BeerDAO();
-    private ArrayAdapter<Beer> adapter;
+    private BeerListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +38,6 @@ public class BeerListActivity extends AppCompatActivity {
         setTitle(TITLE_APPBAR);
         configureNewBeerFAB();
         configureList();
-
-        //TODO remover comentário e função salvar. Save apenas para testes.
-        //deve para esta activity, puxar do servidor.
-        //daí usa o mesmo laytou para criar a de favoritos.
-        beerDAO.save(new Beer("Name", "Tagline", "Description"));
-        beerDAO.save(new Beer("Name2", "Tagline2", "Description2"));
-
     }
 
     @Override
@@ -59,18 +56,31 @@ public class BeerListActivity extends AppCompatActivity {
     public boolean onContextItemSelected(@NonNull MenuItem item) {
 
         int itemId = item.getItemId();
-        
+
         if (itemId == R.id.activity_beer_list_remove) {
-            AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            Beer beerItem = adapter.getItem(menuInfo.position);
-            remove(beerItem);
+            confirmRemove(item);
         }
         return super.onContextItemSelected(item);
     }
 
+    private void confirmRemove(@NonNull MenuItem item) {
+        new AlertDialog.Builder(this)
+                .setTitle(REMOVE_BEER)
+                .setMessage(MESSAGE)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                        Beer beerItem = adapter.getItem(menuInfo.position);
+                        remove(beerItem);
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
     private void updateBeer() {
-        adapter.clear();
-        adapter.addAll(beerDAO.getAll());
+        adapter.update(beerDAO.getAll());
     }
 
     //aqui vai ser usado para quando clicar no botão de favorito
@@ -119,7 +129,9 @@ public class BeerListActivity extends AppCompatActivity {
     }
 
     private void adapterConfigure(ListView beerList) {
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        beerList.setAdapter(adapter);
+        adapter = new BeerListAdapter(this);
+        beerList.setAdapter(
+                adapter
+        );
     }
 }
