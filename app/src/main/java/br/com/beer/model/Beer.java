@@ -1,5 +1,9 @@
 package br.com.beer.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
@@ -10,6 +14,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +23,8 @@ import lombok.ToString;
 @ToString(exclude = {"id"})
 public class Beer implements Serializable {
 
+   @PrimaryKey(autoGenerate = true)
+   @ColumnInfo(name = "cod_local")
    private int codLocal = 0;
 
    private int id;

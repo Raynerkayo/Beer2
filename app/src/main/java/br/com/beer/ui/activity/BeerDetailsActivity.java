@@ -10,7 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import br.com.beer.R;
-import br.com.beer.dao.BeerDAO;
+import br.com.beer.database.BeerDatabase;
+import br.com.beer.database.dao.BeerDAO;
 import br.com.beer.model.Beer;
 
 import static br.com.beer.ui.activity.util.ConstantsActivities.KEY_BEER;
@@ -18,7 +19,7 @@ import static br.com.beer.ui.activity.util.ConstantsActivities.KEY_BEER;
 public class BeerDetailsActivity extends AppCompatActivity {
 
     private static final String TITLE_APPBAR = "Beer Details";
-    private final BeerDAO beerDAO = new BeerDAO();
+    private BeerDAO beerDAO;
     private EditText editTextName;
     private EditText editTextTagline;
     private EditText editTextDescription;
@@ -28,6 +29,8 @@ public class BeerDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beer_details);
+        BeerDatabase dataBase = BeerDatabase.getInstance(this);
+        beerDAO = dataBase.getRoomBeerDAO();
         setTitle(TITLE_APPBAR);
         fieldsInitializer();
         loadBeer();
@@ -44,7 +47,7 @@ public class BeerDetailsActivity extends AppCompatActivity {
     //vai para a outra view ou activity; se for, finaliza essa.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.activity_beer_details_menu_save){
+        if (item.getItemId() == R.id.activity_beer_details_menu_save) {
             endDetails();
         }
         //fazer um else if para o comentário acima.

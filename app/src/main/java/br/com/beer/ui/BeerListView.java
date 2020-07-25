@@ -8,7 +8,8 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 
-import br.com.beer.dao.BeerDAO;
+import br.com.beer.database.BeerDatabase;
+import br.com.beer.database.dao.BeerDAO;
 import br.com.beer.model.Beer;
 import br.com.beer.ui.adapter.BeerListAdapter;
 
@@ -24,7 +25,7 @@ public class BeerListView {
     public BeerListView(Context context) {
         this.context = context;
         this.adapter = new BeerListAdapter(this.context);
-        this.beerDAO = new BeerDAO();
+        beerDAO = BeerDatabase.getInstance(this.context).getRoomBeerDAO();
     }
 
     public void confirmRemove(@NonNull MenuItem item) {

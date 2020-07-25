@@ -22,13 +22,14 @@ import static br.com.beer.ui.activity.util.ConstantsActivities.KEY_BEER;
 public class BeerListActivity extends AppCompatActivity {
 
     private static final String TITLE_APPBAR = "Beer List";
-    private final BeerListView beerListView = new BeerListView(this);
+    private BeerListView beerListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beer_list);
         setTitle(TITLE_APPBAR);
+        beerListView = new BeerListView(this);
         configureNewBeerFAB();
         configureList();
     }
