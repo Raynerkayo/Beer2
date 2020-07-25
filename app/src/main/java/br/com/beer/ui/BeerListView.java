@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import br.com.beer.database.BeerDatabase;
 import br.com.beer.database.dao.BeerDAO;
 import br.com.beer.model.Beer;
+import br.com.beer.repository.BeerRepository;
 import br.com.beer.ui.adapter.BeerListAdapter;
 
 import static br.com.beer.ui.activity.util.ConstantsActivities.MESSAGE;
@@ -21,11 +22,13 @@ public class BeerListView {
     private final BeerListAdapter adapter;
     private final Context context;
     private final BeerDAO beerDAO;
+    private BeerRepository repository;
 
     public BeerListView(Context context) {
         this.context = context;
         this.adapter = new BeerListAdapter(this.context);
         beerDAO = BeerDatabase.getInstance(this.context).getRoomBeerDAO();
+        repository = new BeerRepository(beerDAO);
     }
 
     public void confirmRemove(@NonNull MenuItem item) {
@@ -42,7 +45,8 @@ public class BeerListView {
     }
 
     public void updateBeer() {
-        adapter.update(beerDAO.getAll());
+        //adapter.update(beerDAO.getAll());
+        repository.getBeers(adapter::update);
     }
 
     private void remove(Beer beerSelected) {

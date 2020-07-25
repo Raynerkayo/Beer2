@@ -3,6 +3,7 @@ package br.com.beer.database.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -24,4 +25,7 @@ public interface BeerDAO {
 
     @Update
     void edit(Beer beer);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void save(List<Beer> beersResponse);
 }

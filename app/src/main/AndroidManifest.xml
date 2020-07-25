@@ -3,6 +3,9 @@
     xmlns:tool="http://schemas.android.com/tools"
     package="br.com.beer">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,15 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tool:ignore="AllowBackup"
-        >
+        tool:ignore="AllowBackup">
+        <activity android:name=".ui.activity.BeerPunkActivity"></activity>
         <activity android:name=".ui.activity.BeerListActivity">
-          <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
-          </intent-filter>
+            </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.BeerDetailsActivity"/>
+        <activity android:name=".ui.activity.BeerDetailsActivity" />
     </application>
 
 </manifest>

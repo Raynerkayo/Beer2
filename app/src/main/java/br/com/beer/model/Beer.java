@@ -2,7 +2,10 @@ package br.com.beer.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 
@@ -21,28 +24,27 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @Builder
 @ToString(exclude = {"id"})
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Beer implements Serializable {
 
-   @PrimaryKey(autoGenerate = true)
-   @ColumnInfo(name = "cod_local")
-   private int codLocal = 0;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
 
-   private int id;
+    @NonNull
+    private String name;
 
-   @NonNull
-   private String name;
+    @NonNull
+    private String tagline;
 
-   @NonNull
-   private String tagline;
+    @NonNull
+    private String description;
 
-   @NonNull
-   private String description;
+    @NonNull
+    private Boolean favorite = false;
 
-   private Boolean favorite = false;
-
-   private String image_url;
+    private String image_url;
 
     public boolean isValidCod() {
-        return codLocal > 0;
+        return id > 0;
     }
 }

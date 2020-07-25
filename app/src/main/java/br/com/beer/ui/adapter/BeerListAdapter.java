@@ -77,6 +77,7 @@ public class BeerListAdapter extends BaseAdapter {
     }
 
     public void update(List<Beer> beers){
+        notifyDataSetChanged();
         this.beers.clear();
         this.beers.addAll(beers);
         notifyDataSetChanged();

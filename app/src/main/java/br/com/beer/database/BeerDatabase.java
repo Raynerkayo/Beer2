@@ -9,15 +9,18 @@ import androidx.room.RoomDatabase;
 import br.com.beer.database.dao.BeerDAO;
 import br.com.beer.model.Beer;
 
-@Database(entities = {Beer.class}, version = 1, exportSchema = false)
+@Database(entities = {Beer.class}, version = 4, exportSchema = false)
 public abstract class BeerDatabase extends RoomDatabase {
 
     private static final String NAME_DB = "beer.db";
 
     public static BeerDatabase getInstance(Context context) {
+        //fallback To Destructive Migration (), in the case of changes in the database version,
+        //erases everything. Migration will not be addressed.
         return Room
                 .databaseBuilder(context, BeerDatabase.class, NAME_DB)
                 .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
                 .build();
     }
 
