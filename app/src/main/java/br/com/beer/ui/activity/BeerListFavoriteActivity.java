@@ -1,20 +1,14 @@
 package br.com.beer.ui.activity;
 
-import android.content.Intent;
-import android.media.Image;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 
 import br.com.beer.R;
 import br.com.beer.model.Beer;
@@ -22,7 +16,7 @@ import br.com.beer.ui.BeerListView;
 
 import static br.com.beer.ui.activity.util.ConstantsActivities.KEY_BEER;
 
-public class BeerListActivity extends AppCompatActivity {
+public class BeerListFavoriteActivity extends AppCompatActivity {
 
     private static final String TITLE_APPBAR = "Beer List";
     private BeerListView beerListView;
@@ -30,17 +24,16 @@ public class BeerListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_beer_list);
+        setContentView(R.layout.activity_beer_list_favorite);
         setTitle(TITLE_APPBAR);
         beerListView = new BeerListView(this);
-        configureNewBeerFAB();
         configureList();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        beerListView.updateBeer();
+        beerListView.updateFavoriteBeer();
     }
 
     @Override
@@ -59,20 +52,13 @@ public class BeerListActivity extends AppCompatActivity {
         }
         return super.onContextItemSelected(item);
     }
-    //aqui vai ser usado para quando clicar no botão de favorito
-    private void configureNewBeerFAB() {
-        FloatingActionButton fabButtonAdd = findViewById(R.id.activity_list_beer_fab_new_favorite_beer);
-        fabButtonAdd.setOnClickListener(
-                view -> openDetailsInsertModeBeer()
-        );
-    }
 
     private void openDetailsInsertModeBeer() {
         startActivity(new Intent(this, BeerDetailsActivity.class));
     }
 
     private void configureList() {
-        ListView beerList = findViewById(R.id.activity_beer_list_listview);
+        ListView beerList = findViewById(R.id.activity_beer_list_favorite_listview);
         beerListView.adapterConfigure(beerList);
         configureClickListenerItemList(beerList);
         registerForContextMenu(beerList);
@@ -92,5 +78,4 @@ public class BeerListActivity extends AppCompatActivity {
         goToDetails.putExtra(KEY_BEER, beer);
         startActivity(goToDetails);
     }
-
 }

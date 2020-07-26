@@ -1,17 +1,25 @@
 package br.com.beer.ui.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.beer.R;
+import br.com.beer.database.BeerDatabase;
+import br.com.beer.database.dao.BeerDAO;
 import br.com.beer.model.Beer;
 
 public class BeerListAdapter extends BaseAdapter {
@@ -36,7 +44,7 @@ public class BeerListAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         //aqui vai ficar getCoLocal quando for lista de favoritos
-        return beers.get(position).getId();
+        return beers.get(position).getIdLocal();
     }
 
     @Override
@@ -54,29 +62,44 @@ public class BeerListAdapter extends BaseAdapter {
         ImageView itemPlaceholder = view.findViewById(R.id.item_beer_placeholder);
         ImageView itemFavorite = view.findViewById(R.id.item_beer_star);
 
-        itemName.setText(beer.getName());
-        itemTageline.setText(beer.getTagline());
+        itemName.setText((beer.getName() + " : " + beer.getIdApi()));
+        itemTageline.setText(String.valueOf(beer.getIdLocal()));
         itemFavorite.setImageResource(beer.getFavorite() ? R.drawable.staron : R.drawable.staroff);
-        itemPlaceholder.setImageResource(R.drawable.placeholder);
-        //acionar o favorito.
-        /*
         itemFavorite.setOnClickListener(
-                v -> {
-                    Toast.makeText(context, "CLICOU EM itemFavorite", Toast.LENGTH_LONG).show();
-                }
-        );*/
-        //Picasso.get().load(beer.getImage_url()).into(itemFavorite);
-        //setImageResource(cerveja.getFavorite() ? R.drawable.staron : R.drawable.staroff);
-        //itemFavorite.setText(String.valueOf(beer.getFavorite()));
+                s -> favorite(beer, itemFavorite)
+        );
+        itemPlaceholder.setImageResource(R.drawable.placeholder);
+        Picasso.get().load(beer.getImage_url()).into(itemPlaceholder);
+    }
+
+    private void favorite(Beer beer, ImageView itemFavorite) {
+        BeerDAO beerDAO = BeerDatabase.getInstance(this.context).getRoomBeerDAO();
+        if (beer != null) {
+            if (beerDAO.find(beer.getIdApi()) == null){
+                notifyDataSetChanged();
+                beerDAO.save(beer);
+                beer.setFavorite(true);
+                itemFavorite.setImageResource(R.drawable.staron);
+                notifyDataSetChanged();
+            } else {
+                notifyDataSetChanged();
+                beerDAO.remove(beer);
+                beer.setFavorite(false);
+                itemFavorite.setImageResource(R.drawable.staroff);
+                notifyDataSetChanged();
+            }
+        }
+
+        ;
     }
 
     private View createView(ViewGroup viewGroup) {
         return LayoutInflater
                 .from(context)
-                .inflate(R.layout.item_beer, viewGroup, false);
+                .inflate(R.layout.item, viewGroup, false);
     }
 
-    public void update(List<Beer> beers){
+    public void update(List<Beer> beers) {
         notifyDataSetChanged();
         this.beers.clear();
         this.beers.addAll(beers);

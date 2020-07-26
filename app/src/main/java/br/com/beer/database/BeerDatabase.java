@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import br.com.beer.database.dao.BeerDAO;
 import br.com.beer.model.Beer;
 
-@Database(entities = {Beer.class}, version = 4, exportSchema = false)
+@Database(entities = {Beer.class}, version = 5, exportSchema = false)
 public abstract class BeerDatabase extends RoomDatabase {
 
     private static final String NAME_DB = "beer.db";

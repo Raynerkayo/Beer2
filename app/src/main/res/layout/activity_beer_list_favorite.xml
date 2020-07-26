@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.BeerPunkActivity">
+    tools:context=".ui.activity.BeerListFavoriteActivity">
 
     <ListView
-        android:id="@+id/activity_beer_list_listview"
+        android:id="@+id/activity_beer_list_favorite_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </ListView>

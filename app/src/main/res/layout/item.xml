@@ -10,7 +10,8 @@
         android:layout_width="134dp"
         android:layout_height="168dp"
         android:contentDescription="TODO"
-        app:srcCompat="@drawable/placeholder" />
+        app:srcCompat="@drawable/placeholder"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/item_beer_name"
@@ -50,8 +51,8 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/item_beer_placeholder"
         app:layout_constraintEnd_toStartOf="@+id/item_beer_star"
-        app:layout_constraintHorizontal_bias="0.375"
+        app:layout_constraintHorizontal_bias="0.381"
         app:layout_constraintStart_toEndOf="@+id/item_beer_placeholder"
         app:layout_constraintTop_toTopOf="@+id/item_beer_placeholder"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.834" />
 </androidx.constraintlayout.widget.ConstraintLayout>

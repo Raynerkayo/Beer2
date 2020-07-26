@@ -2,10 +2,10 @@ package br.com.beer.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import lombok.Value;
 
 @Entity
 @Data
@@ -28,7 +29,12 @@ import lombok.ToString;
 public class Beer implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    @ColumnInfo(name = "id_local")
+    private int idLocal;
+
+    @ColumnInfo(name = "id_api")
+    @JsonProperty(value = "id")
+    private int idApi;
 
     @NonNull
     private String name;
@@ -45,6 +51,7 @@ public class Beer implements Serializable {
     private String image_url;
 
     public boolean isValidCod() {
-        return id > 0;
+        return idLocal > 0;
     }
+
 }

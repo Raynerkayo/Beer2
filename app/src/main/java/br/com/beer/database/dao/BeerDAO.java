@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.List;
+import java.util.Optional;
 
 import br.com.beer.model.Beer;
 
@@ -25,6 +26,9 @@ public interface BeerDAO {
 
     @Update
     void edit(Beer beer);
+
+    @Query("SELECT * FROM beer WHERE id_api = :idApi")
+    Beer find(int idApi);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void save(List<Beer> beersResponse);

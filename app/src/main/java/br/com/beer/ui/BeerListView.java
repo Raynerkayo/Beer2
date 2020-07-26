@@ -45,7 +45,6 @@ public class BeerListView {
     }
 
     public void updateBeer() {
-        //adapter.update(beerDAO.getAll());
         repository.getBeers(adapter::update);
     }
 
@@ -60,4 +59,9 @@ public class BeerListView {
         );
     }
 
+    public void updateFavoriteBeer() {
+
+        repository.getBeerFavorites(adapter::update);
+
+    }
 }
