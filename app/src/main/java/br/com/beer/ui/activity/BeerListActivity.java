@@ -1,20 +1,13 @@
 package br.com.beer.ui.activity;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import br.com.beer.R;
 import br.com.beer.model.Beer;
@@ -33,7 +26,6 @@ public class BeerListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_beer_list);
         setTitle(TITLE_APPBAR);
         beerListView = new BeerListView(this);
-        configureNewBeerFAB();
         configureList();
     }
 
@@ -44,31 +36,22 @@ public class BeerListActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_beer_list_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-
-        int itemId = item.getItemId();
-
-        if (itemId == R.id.activity_beer_list_remove) {
-            beerListView.confirmRemove(item);
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.activity_beer_list_favorite_menu) {
+            openFavorites();
         }
-        return super.onContextItemSelected(item);
-    }
-    //aqui vai ser usado para quando clicar no botão de favorito
-    private void configureNewBeerFAB() {
-        FloatingActionButton fabButtonAdd = findViewById(R.id.activity_list_beer_fab_new_favorite_beer);
-        fabButtonAdd.setOnClickListener(
-                view -> openDetailsInsertModeBeer()
-        );
+        return super.onOptionsItemSelected(item);
     }
 
-    private void openDetailsInsertModeBeer() {
-        startActivity(new Intent(this, BeerDetailsActivity.class));
+    private void openFavorites() {
+        startActivity(new Intent(this, BeerListFavoriteActivity.class));
     }
 
     private void configureList() {

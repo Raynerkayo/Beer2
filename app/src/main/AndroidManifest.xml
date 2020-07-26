@@ -14,15 +14,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tool:ignore="AllowBackup">
-        <activity android:name=".ui.activity.BeerListFavoriteActivity"></activity>
-        <activity android:name=".ui.activity.BeerListActivity">
+        <activity android:name=".ui.activity.BeerConnectionActivity" />
+        <activity android:name=".ui.activity.BeerListActivity" />
+        <activity
+            android:name=".ui.activity.BeerListFavoriteActivity"
+            android:parentActivityName=".ui.activity.BeerListActivity" />
+        <activity android:name=".ui.activity.BeerSplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.BeerDetailsActivity" />
+        <activity
+            android:name=".ui.activity.BeerDetailsActivity"
+            android:parentActivityName=".ui.activity.BeerListActivity" />
     </application>
 
 </manifest>

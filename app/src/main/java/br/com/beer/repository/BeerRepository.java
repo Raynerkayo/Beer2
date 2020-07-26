@@ -4,10 +4,7 @@ import android.os.AsyncTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import br.com.beer.BaseAsyncTask;
 import br.com.beer.database.dao.BeerDAO;

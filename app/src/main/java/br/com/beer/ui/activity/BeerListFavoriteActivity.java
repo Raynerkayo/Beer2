@@ -1,14 +1,14 @@
 package br.com.beer.ui.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import br.com.beer.R;
 import br.com.beer.model.Beer;
@@ -18,7 +18,7 @@ import static br.com.beer.ui.activity.util.ConstantsActivities.KEY_BEER;
 
 public class BeerListFavoriteActivity extends AppCompatActivity {
 
-    private static final String TITLE_APPBAR = "Beer List";
+    private static final String TITLE_APPBAR = "FAVORITE";
     private BeerListView beerListView;
 
     @Override
@@ -26,6 +26,8 @@ public class BeerListFavoriteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beer_list_favorite);
         setTitle(TITLE_APPBAR);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         beerListView = new BeerListView(this);
         configureList();
     }
@@ -37,24 +39,22 @@ public class BeerListFavoriteActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.home) {
+            returnList();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void returnList() {
+        startActivity(new Intent(this, BeerListActivity.class));
+    }
+
+
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.activity_beer_list_menu, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-
-        int itemId = item.getItemId();
-
-        if (itemId == R.id.activity_beer_list_remove) {
-            beerListView.confirmRemove(item);
-        }
-        return super.onContextItemSelected(item);
-    }
-
-    private void openDetailsInsertModeBeer() {
-        startActivity(new Intent(this, BeerDetailsActivity.class));
     }
 
     private void configureList() {
