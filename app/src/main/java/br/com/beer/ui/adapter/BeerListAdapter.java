@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import br.com.beer.R;
@@ -22,13 +25,15 @@ import br.com.beer.database.BeerDatabase;
 import br.com.beer.database.dao.BeerDAO;
 import br.com.beer.model.Beer;
 
-public class BeerListAdapter extends BaseAdapter {
+public class BeerListAdapter extends BaseAdapter implements Filterable {
 
     private final List<Beer> beers = new ArrayList<>();
+    private final List<Beer> beersAll;
     private final Context context;
 
     public BeerListAdapter(Context context) {
         this.context = context;
+        this.beersAll = new ArrayList<>(beers);
     }
 
     @Override
@@ -43,7 +48,6 @@ public class BeerListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        //aqui vai ficar getCoLocal quando for lista de favoritos
         return beers.get(position).getIdLocal();
     }
 
@@ -56,14 +60,46 @@ public class BeerListAdapter extends BaseAdapter {
         return inflateViewItemBeer;
     }
 
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Beer> filteredList = new ArrayList<>();
+            if (constraint.toString().isEmpty()){
+                filteredList.addAll(beersAll);
+            } else {
+                for (Beer b : beersAll){
+                    if (b.getName().contains(constraint.toString()))
+                        filteredList.add(b);
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            beersAll.clear();
+            beersAll.addAll((Collection<? extends Beer>) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
     private void bind(View view, Beer beer) {
         TextView itemName = view.findViewById(R.id.item_beer_name);
         TextView itemTageline = view.findViewById(R.id.item_beer_tagline);
         ImageView itemPlaceholder = view.findViewById(R.id.item_beer_placeholder);
         ImageView itemFavorite = view.findViewById(R.id.item_beer_star);
 
-        itemName.setText((beer.getName() + " : " + beer.getIdApi()));
-        itemTageline.setText(String.valueOf(beer.getIdLocal()));
+        itemName.setText(beer.getName());
+        itemTageline.setText(beer.getTagline());
         itemFavorite.setImageResource(beer.getFavorite() ? R.drawable.staron : R.drawable.staroff);
         itemFavorite.setOnClickListener(
                 s -> favorite(beer, itemFavorite)
@@ -110,4 +146,5 @@ public class BeerListAdapter extends BaseAdapter {
         beers.remove(beerSelected);
         notifyDataSetChanged();
     }
+
 }

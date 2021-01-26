@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.BeerListFavoriteActivity">
+    tools:context=".ui.activity.BeerListFavoriteActivity"
+    android:background="@color/colorSecondary"
+    >
 
     <ListView
         android:id="@+id/activity_beer_list_favorite_listview"

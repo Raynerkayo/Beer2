@@ -42,15 +42,11 @@ public class BeerDetailsActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    //será se posso colocar um botão para editar e liberar os campos, aqui?
-    //ou, posso cirar um novodetails, para editar. se ele clicar no botão de editar
-    //vai para a outra view ou activity; se for, finaliza essa.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.activity_beer_details_menu_save) {
             endDetails();
         }
-        //fazer um else if para o comentário acima.
         return super.onOptionsItemSelected(item);
     }
 
